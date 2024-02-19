@@ -1,7 +1,6 @@
 "use client";
 import styled from "styled-components";
-import { CiSun, CiSearch } from "react-icons/ci";
-import { MdOutlineNightlightRound } from "react-icons/md";
+import { CiSearch, CiLight, CiDark } from "react-icons/ci";
 import { useState } from "react";
 
 export default function Header() {
@@ -25,21 +24,14 @@ export default function Header() {
   return (
     <HeaderContainer>
       <p>Notes</p>
-      <nav>
-        <button onClick={handleTheme}>
-          {!theme ? (
-            <CiSun size="38px" color={mappedThemeColors[!theme]} />
-          ) : (
-            <MdOutlineNightlightRound
-              size="34px"
-              color={mappedThemeColors[!theme]}
-            />
-          )}
-        </button>
-        <button>
-          <CiSearch size="38px" color={mappedThemeColors[!theme]} />
-        </button>
-      </nav>
+      <Navigation>
+        {!theme ? (
+          <CiLight size="38px" onClick={handleTheme} />
+        ) : (
+          <CiDark size="34px" onClick={handleTheme} />
+        )}
+        <CiSearch size="38px" />
+      </Navigation>
     </HeaderContainer>
   );
 }
@@ -53,14 +45,13 @@ const HeaderContainer = styled.header`
     font-size: 38px;
     padding-left: 10px;
   }
-  nav {
-    display: flex;
-    flex-direction: row;
-    button {
-      background-color: transparent;
-      border: none;
-      padding: 0px 8px;
-      cursor: pointer;
-    }
+`;
+
+const Navigation = styled.nav`
+  display: flex;
+  flex-direction: row;
+  svg {
+    padding: 0 8px;
+    cursor: pointer;
   }
 `;
