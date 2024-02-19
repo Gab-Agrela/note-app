@@ -1,15 +1,48 @@
 "use client";
 import Header from "@/components/Header";
 import NoteCard from "./components/NoteCard";
+import Footer from "@/components/Footer";
+import styled from "styled-components";
 
 export default function Home() {
   return (
-    <main>
+    <MainContainer>
       <Header />
-      <NoteCard
-        title={"aaaaaa"}
-        content={"adasdsadd dasdasd asdasd asdas dasd asda sdasdasd"}
-      />
-    </main>
+      <NoteCardContainer>
+        <NoteCard
+          title={"aaaaaa"}
+          content={"adasdsadd dasdasd asdasd asdas dasd asda sdasdasd"}
+        />
+        <NoteCard
+          title={"aaaaaa"}
+          content={"adasdsadd dasdasd asdasd asdas dasd asda sdasdasd"}
+        />
+        <NoteCard
+          title={"aaaaaa"}
+          content={"adasdsadd dasdasd asdasd asdas dasd asda sdasdasd"}
+        />
+        <NoteCard
+          title={"aaaaaa"}
+          content={"adasdsadd dasdasd asdasd asdas dasd asda sdasdasd"}
+        />
+        <NoteCard
+          title={"aaaaaa"}
+          content={"adasdsadd dasdasd asdasd asdas dasd asda sdasdasd"}
+        />
+      </NoteCardContainer>
+      <Footer />
+    </MainContainer>
   );
 }
+
+const MainContainer = styled.main`
+  display: flex;
+  flex-direction: column;
+`;
+
+const NoteCardContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  height: 75dvh;
+  overflow: auto;
+`;
