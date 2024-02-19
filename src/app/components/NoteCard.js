@@ -23,6 +23,7 @@ const NoteContainer = styled.div`
   width: 300px;
   height: 300px;
   padding: 5px 20px;
+  margin: 10px;
 `;
 
 const Title = styled.p`
