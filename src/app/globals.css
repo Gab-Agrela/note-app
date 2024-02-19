@@ -2,5 +2,11 @@
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  background-color: rgb(37,37,37);
+  --bg-color: #252525;
+  --font-color: white;
+  
+}
+body {
+  background-color: var(--bg-color);
+  color: var(--font-color);
 }
