@@ -38,11 +38,12 @@ export default function Home() {
 const MainContainer = styled.main`
   display: flex;
   flex-direction: column;
+  height: 95vh;
 `;
 
 const NoteCardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  height: 75dvh;
+  height: 100%;
   overflow: auto;
 `;
