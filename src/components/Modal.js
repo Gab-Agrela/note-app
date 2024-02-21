@@ -13,7 +13,7 @@ export default function Modal({ showModal, toggleModal }) {
   };
 
   const handleSubmit = () => {
-    const previousNote = JSON.parse(localStorage.getItem("notes")) || [];
+    const previousNotes = JSON.parse(localStorage.getItem("notes")) || [];
     const mountObject = {
       id: nanoid(),
       title: noteTitle,
@@ -21,8 +21,10 @@ export default function Modal({ showModal, toggleModal }) {
     };
     localStorage.setItem(
       "notes",
-      JSON.stringify([...previousNote, mountObject])
+      JSON.stringify([...previousNotes, mountObject])
     );
+    window.dispatchEvent(new Event("storage"));
+    toggleModal();
   };
 
   return (
