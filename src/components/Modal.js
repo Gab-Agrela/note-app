@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import styled from "styled-components";
 import Editor from "./Editor";
 
 export default function Modal({ showModal, toggleModal }) {
@@ -7,9 +7,9 @@ export default function Modal({ showModal, toggleModal }) {
       <ModalContent>
         <CloseButton onClick={toggleModal}>&times;</CloseButton>
         <ContentContainer>
-          <Title />
+          <Title placeholder="Title" />
           <Content>
-            <Editor />
+            <Editor placeholder="Type here..." />
           </Content>
         </ContentContainer>
       </ModalContent>
@@ -29,7 +29,6 @@ const ModalWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const ModalContent = styled.div`
   background-color: var(--bg-color);
   border: 2px solid gray;
@@ -38,7 +37,6 @@ const ModalContent = styled.div`
   padding: 5px 20px;
   margin: 10px;
 `;
-
 const CloseButton = styled.span`
   color: #aaa;
   float: right;
@@ -55,7 +53,6 @@ const CloseButton = styled.span`
 const ContentContainer = styled.div`
   padding: 25px 10px;
 `;
-
 const Title = styled.input`
   width: 100%;
   color: var(--font-color);
@@ -69,8 +66,7 @@ const Title = styled.input`
     outline: none;
   }
 `;
-
 const Content = styled.div`
-  height: 170px;
-  overflow-y: auto;
+  margin-top: 5px;
+  border-bottom: 2px solid gray;
 `;
