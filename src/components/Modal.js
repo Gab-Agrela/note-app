@@ -11,6 +11,7 @@ export default function Modal({ showModal, toggleModal }) {
           <Content>
             <Editor placeholder="Type here..." />
           </Content>
+          <SubmitButton>Save</SubmitButton>
         </ContentContainer>
       </ModalContent>
     </ModalWrapper>
@@ -52,6 +53,9 @@ const CloseButton = styled.span`
 `;
 const ContentContainer = styled.div`
   padding: 25px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
 `;
 const Title = styled.input`
   width: 100%;
@@ -69,4 +73,20 @@ const Title = styled.input`
 const Content = styled.div`
   margin-top: 5px;
   border-bottom: 2px solid gray;
+  width: 100%;
+`;
+const SubmitButton = styled.button`
+  width: 60px;
+  margin-top: 30px;
+  padding: 5px;
+  background-color: transparent;
+  border: 2px solid #aaa;
+  border-radius: 25px;
+  font-weight: 500;
+  color: var(--font-color);
+  cursor: pointer;
+  :hover {
+    border-color: dimgray;
+    color: dimgray;
+  }
 `;

@@ -89,10 +89,13 @@ export default function Editor() {
 const MenuBarContainer = styled.div`
   border-bottom: 2px solid gray;
   .is_active {
-    color: #666666;
+    color: dimgray;
   }
   svg {
     padding: 0 8px;
     cursor: pointer;
+    :hover {
+      color: dimgray;
+    }
   }
 `;
