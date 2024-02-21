@@ -10,3 +10,23 @@ body {
   background-color: var(--bg-color);
   color: var(--font-color);
 }
+
+.tiptap.ProseMirror > p {
+  margin-block-start: 0px !important;
+  margin-block-end: 0px !important;
+  margin-inline-start: 0px !important;
+  margin-inline-end: 0px !important;
+}
+
+.tiptap.ProseMirror.ProseMirror-focused {
+  outline: none;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  color: dimgray;
+  font-weight: 500;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}

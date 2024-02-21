@@ -1,6 +1,6 @@
 "use client";
 import Header from "@/components/Header";
-import NoteCard from "./components/NoteCard";
+import NoteCard from "@/components/NoteCard";
 import Footer from "@/components/Footer";
 import styled from "styled-components";
 
