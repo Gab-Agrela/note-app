@@ -54,7 +54,7 @@ const MenuBar = ({ editor }) => {
   );
 };
 
-export default function Editor() {
+export default function Editor({ setNoteContent }) {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -67,7 +67,7 @@ export default function Editor() {
 
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
-      console.log(html);
+      setNoteContent(html);
     },
   });
 

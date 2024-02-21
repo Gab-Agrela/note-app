@@ -1,17 +1,43 @@
 import styled from "styled-components";
+import { useState } from "react";
+import { nanoid } from "nanoid";
+
 import Editor from "./Editor";
 
 export default function Modal({ showModal, toggleModal }) {
+  const [noteContent, setNoteContent] = useState("");
+  const [noteTitle, setNoteTitle] = useState("");
+
+  const handleChange = (event) => {
+    setNoteTitle(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    const previousNote = JSON.parse(localStorage.getItem("notes")) || [];
+    const mountObject = {
+      id: nanoid(),
+      title: noteTitle,
+      content: noteContent,
+    };
+    localStorage.setItem(
+      "notes",
+      JSON.stringify([...previousNote, mountObject])
+    );
+  };
+
   return (
     <ModalWrapper show={showModal}>
       <ModalContent>
         <CloseButton onClick={toggleModal}>&times;</CloseButton>
         <ContentContainer>
-          <Title placeholder="Title" />
+          <Title placeholder="Title" onChange={handleChange} />
           <Content>
-            <Editor placeholder="Type here..." />
+            <Editor
+              placeholder="Type here..."
+              setNoteContent={setNoteContent}
+            />
           </Content>
-          <SubmitButton>Save</SubmitButton>
+          <SubmitButton onClick={handleSubmit}>Save</SubmitButton>
         </ContentContainer>
       </ModalContent>
     </ModalWrapper>
