@@ -1,8 +1,10 @@
 "use client";
 
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent as EditorTipTap } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
+import Placeholder from "@tiptap/extension-placeholder";
+import { nanoid } from "nanoid";
 import {
   FaBold,
   FaHeading,
@@ -13,7 +15,8 @@ import {
   FaUnderline,
 } from "react-icons/fa";
 import styled from "styled-components";
-import Placeholder from "@tiptap/extension-placeholder";
+import { useContext } from "react";
+import { ProjectContext } from "@/app/page";
 
 const MenuBar = ({ editor }) => {
   if (!editor) {
@@ -55,6 +58,8 @@ const MenuBar = ({ editor }) => {
 };
 
 export default function Editor({ setNoteContent }) {
+  const [{ noteTitle, noteContent }, setState] = useContext(ProjectContext);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -71,18 +76,35 @@ export default function Editor({ setNoteContent }) {
     },
   });
 
+  const handleSubmit = () => {
+    const previousNotes = JSON.parse(localStorage.getItem("notes")) || [];
+    const mountObject = {
+      id: nanoid(),
+      title: noteTitle,
+      content: noteContent,
+    };
+    localStorage.setItem(
+      "notes",
+      JSON.stringify([...previousNotes, mountObject])
+    );
+    window.dispatchEvent(new Event("storage"));
+    setState((prev) => ({
+      ...prev,
+      noteTitle: "",
+      noteContent: "",
+      showModal: !prev.showModal,
+    }));
+    editor.commands.clearContent();
+  };
+
   return (
-    <div>
+    <>
       <MenuBar editor={editor} />
-      <EditorContent
-        editor={editor}
-        style={{
-          height: "320px",
-          overflowY: "auto",
-          marginTop: "10px",
-        }}
-      />
-    </div>
+      <EditorContent editor={editor} />
+      <ButtonContainer>
+        <SubmitButton onClick={handleSubmit}>Save</SubmitButton>
+      </ButtonContainer>
+    </>
   );
 }
 
@@ -97,5 +119,34 @@ const MenuBarContainer = styled.div`
     :hover {
       color: dimgray;
     }
+  }
+`;
+
+const EditorContent = styled(EditorTipTap)`
+  height: 320px;
+  overflow-y: auto;
+  margin-top: 10px;
+  border-bottom: 2px solid gray;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+`;
+
+const SubmitButton = styled.button`
+  width: 60px;
+  padding: 5px;
+  margin-top: 20px;
+  background-color: transparent;
+  border: 2px solid #aaa;
+  border-radius: 25px;
+  font-weight: 500;
+  color: var(--font-color);
+  cursor: pointer;
+  :hover {
+    border-color: dimgray;
+    color: dimgray;
   }
 `;
