@@ -15,9 +15,9 @@ export default function Home() {
   const [state, setState] = useState({
     noteTitle: "",
     noteContent: "",
+    noteId: "",
     showModal: false,
   });
-  console.log(state);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -32,7 +32,7 @@ export default function Home() {
     <ProjectContext.Provider value={[state, setState]}>
       <MainContainer>
         <Header />
-        {notes ? (
+        {notes.length ? (
           <NoteCardContainer>
             {notes.map(({ title, content, id }) => (
               <NoteCard title={title} content={content} key={id} id={id} />

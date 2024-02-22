@@ -1,31 +1,43 @@
 "use client";
 
-import styled from "styled-components";
+import { useContext } from "react";
 import { CiEdit, CiTrash } from "react-icons/ci";
+import styled from "styled-components";
+import parse from "html-react-parser";
+
+import { ProjectContext } from "@/app/page";
 
 export default function NoteCard({ title, content, id }) {
+  const [, setState] = useContext(ProjectContext);
+
   const handleDelete = ({ target }) => {
-    const { id } = target.parentElement.parentElement;
-    const previousNotes = JSON.parse(localStorage.getItem("notes")) || [];
-    const notesWithoutRemovedId = previousNotes.filter(
-      (note) => note.id !== id
-    );
+    const { id } = target;
+    const notes = JSON.parse(localStorage.getItem("notes")) || [];
+    const notesWithoutRemovedId = notes.filter((note) => note.id !== id);
     localStorage.setItem("notes", JSON.stringify(notesWithoutRemovedId));
     window.dispatchEvent(new Event("storage"));
   };
 
   const handleEdit = ({ target }) => {
-    const a = target;
+    const { id } = target;
+    const notes = JSON.parse(localStorage.getItem("notes")) || [];
+    const [noteFromId] = notes.filter((note) => note.id == id);
+    setState((prev) => ({
+      ...prev,
+      noteTitle: noteFromId?.title,
+      noteContent: noteFromId?.content,
+      noteId: id,
+      showModal: true,
+    }));
   };
+
   return (
     <NoteContainer id={id}>
       <Title>{title}</Title>
-      <Content>
-        <span>{content}</span>
-      </Content>
+      <Content>{parse(content)}</Content>
       <ButtonContainer>
-        <CiEdit size="24px" onClick={handleEdit} />
-        <CiTrash size="22px" onClick={handleDelete} />
+        <CiEdit size="24px" id={id} onClick={handleEdit} />
+        <CiTrash size="22px" id={id} onClick={handleDelete} />
       </ButtonContainer>
     </NoteContainer>
   );
@@ -46,8 +58,9 @@ const Title = styled.p`
   margin: 0px;
   margin-top: 10px;
   margin-bottom: 15px;
-  height: 30px;
+  height: 35px;
   overflow-x: hidden;
+  overflow-y: hidden;
 `;
 
 const Content = styled.div`

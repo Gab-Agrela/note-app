@@ -16,7 +16,13 @@ export default function Modal() {
   };
 
   const toggleModal = () =>
-    setState((prev) => ({ ...prev, showModal: !prev.showModal }));
+    setState((prev) => ({
+      ...prev,
+      noteTitle: "",
+      noteContent: "",
+      noteId: "",
+      showModal: !prev.showModal,
+    }));
 
   return (
     <ModalWrapper show={showModal}>

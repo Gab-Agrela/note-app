@@ -15,7 +15,7 @@ import {
   FaUnderline,
 } from "react-icons/fa";
 import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ProjectContext } from "@/app/page";
 
 const MenuBar = ({ editor }) => {
@@ -58,7 +58,8 @@ const MenuBar = ({ editor }) => {
 };
 
 export default function Editor({ setNoteContent }) {
-  const [{ noteTitle, noteContent }, setState] = useContext(ProjectContext);
+  const [{ noteTitle, noteContent, noteId }, setState] =
+    useContext(ProjectContext);
 
   const editor = useEditor({
     extensions: [
@@ -69,32 +70,41 @@ export default function Editor({ setNoteContent }) {
       }),
     ],
     content: "",
-
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       setNoteContent(html);
     },
   });
 
+  useEffect(() => {
+    editor && editor.commands.setContent(noteContent || "");
+  }, [noteTitle, noteContent, noteId]);
+
   const handleSubmit = () => {
-    const previousNotes = JSON.parse(localStorage.getItem("notes")) || [];
+    const notes = JSON.parse(localStorage.getItem("notes")) || [];
     const mountObject = {
-      id: nanoid(),
+      id: noteId || nanoid(),
       title: noteTitle,
       content: noteContent,
     };
+
+    const noteWithoutEditedIdIfExists = noteId
+      ? notes.filter((note) => note.id !== noteId)
+      : notes;
+
     localStorage.setItem(
       "notes",
-      JSON.stringify([...previousNotes, mountObject])
+      JSON.stringify([...noteWithoutEditedIdIfExists, mountObject])
     );
+
     window.dispatchEvent(new Event("storage"));
     setState((prev) => ({
       ...prev,
       noteTitle: "",
       noteContent: "",
+      noteId: "",
       showModal: !prev.showModal,
     }));
-    editor.commands.clearContent();
   };
 
   return (
