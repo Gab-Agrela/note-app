@@ -32,7 +32,7 @@ export default function Home() {
     <ProjectContext.Provider value={[state, setState]}>
       <MainContainer>
         <Header />
-        {notes.length ? (
+        {notes?.length ? (
           <NoteCardContainer>
             {notes.map(({ title, content, id }) => (
               <NoteCard title={title} content={content} key={id} id={id} />
