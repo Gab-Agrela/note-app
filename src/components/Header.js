@@ -14,6 +14,7 @@ export default function Header() {
       "--bg-color",
       mappedThemeColors[!theme]
     );
+    console.log("a");
     document.documentElement.style.setProperty(
       "--font-color",
       mappedThemeColors[theme]

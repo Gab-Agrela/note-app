@@ -13,10 +13,6 @@ export default function NoteCard({ title, content, id }) {
     localStorage.setItem("notes", JSON.stringify(notesWithoutRemovedId));
     window.dispatchEvent(new Event("storage"));
   };
-
-  const handleEdit = ({ target }) => {
-    const a = target;
-  };
   return (
     <NoteContainer id={id}>
       <Title>{title}</Title>
@@ -24,7 +20,7 @@ export default function NoteCard({ title, content, id }) {
         <span>{content}</span>
       </Content>
       <ButtonContainer>
-        <CiEdit size="24px" onClick={handleEdit} />
+        <CiEdit size="24px" />
         <CiTrash size="22px" onClick={handleDelete} />
       </ButtonContainer>
     </NoteContainer>
@@ -43,21 +39,16 @@ const Title = styled.p`
   border-bottom: 1px solid gray;
   font-size: 24px;
   font-weight: 500;
-  margin: 0px;
-  margin-top: 10px;
-  margin-bottom: 15px;
-  height: 30px;
-  overflow-x: hidden;
+  padding-bottom: 5px;
 `;
 
 const Content = styled.div`
-  height: 190px;
+  height: 170px;
   overflow-y: auto;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
-  margin-top: 15px;
   justify-content: flex-end;
   svg {
     cursor: pointer;
