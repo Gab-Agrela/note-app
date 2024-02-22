@@ -25,7 +25,7 @@ export default function Home() {
       {notes ? (
         <NoteCardContainer>
           {notes.map(({ title, content, id }) => (
-            <NoteCard title={title} content={content} key={id} />
+            <NoteCard title={title} content={content} key={id} id={id} />
           ))}
         </NoteCardContainer>
       ) : (
