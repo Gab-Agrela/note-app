@@ -1,12 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
-import { nanoid } from "nanoid";
 
 import Editor from "./Editor";
 import { ProjectContext } from "@/app/page";
 
 export default function Modal() {
-  const [state, setState] = useContext(ProjectContext);
+  const [{ showModal, noteTitle }, setState] = useContext(ProjectContext);
 
   const handleTitle = ({ target }) => {
     setState((prev) => ({ ...prev, noteTitle: target.value }));
@@ -16,39 +15,18 @@ export default function Modal() {
     setState((prev) => ({ ...prev, noteContent: e }));
   };
 
-  const handleSubmit = () => {
-    const previousNotes = JSON.parse(localStorage.getItem("notes")) || [];
-    const mountObject = {
-      id: nanoid(),
-      title: state.noteTitle,
-      content: state.noteContent,
-    };
-    localStorage.setItem(
-      "notes",
-      JSON.stringify([...previousNotes, mountObject])
-    );
-    window.dispatchEvent(new Event("storage"));
-    setState((prev) => ({
-      ...prev,
-      noteTitle: "",
-      noteContent: "",
-      showModal: !prev.showModal,
-    }));
-  };
-
   const toggleModal = () =>
     setState((prev) => ({ ...prev, showModal: !prev.showModal }));
 
   return (
-    <ModalWrapper show={state.showModal}>
+    <ModalWrapper show={showModal}>
       <ModalContent>
         <CloseButton onClick={toggleModal}>&times;</CloseButton>
         <ContentContainer>
-          <Title placeholder="Title" onChange={handleTitle} />
+          <Title placeholder="Title" onChange={handleTitle} value={noteTitle} />
           <Content>
             <Editor placeholder="Type here..." setNoteContent={handleContent} />
           </Content>
-          <SubmitButton onClick={handleSubmit}>Save</SubmitButton>
         </ContentContainer>
       </ModalContent>
     </ModalWrapper>
@@ -89,10 +67,10 @@ const CloseButton = styled.span`
   }
 `;
 const ContentContainer = styled.div`
-  padding: 25px 10px;
   display: flex;
   flex-direction: column;
   align-items: end;
+  width: 100%;
 `;
 const Title = styled.input`
   width: 100%;
@@ -100,6 +78,7 @@ const Title = styled.input`
   background-color: transparent;
   font-size: 24px;
   font-weight: 500;
+  padding: 0px;
   padding-bottom: 10px;
   border: none;
   border-bottom: 2px solid gray;
@@ -109,21 +88,5 @@ const Title = styled.input`
 `;
 const Content = styled.div`
   margin-top: 5px;
-  border-bottom: 2px solid gray;
   width: 100%;
-`;
-const SubmitButton = styled.button`
-  width: 60px;
-  margin-top: 30px;
-  padding: 5px;
-  background-color: transparent;
-  border: 2px solid #aaa;
-  border-radius: 25px;
-  font-weight: 500;
-  color: var(--font-color);
-  cursor: pointer;
-  :hover {
-    border-color: dimgray;
-    color: dimgray;
-  }
 `;
