@@ -1,14 +1,23 @@
 "use client";
 
-import Header from "@/components/Header";
-import NoteCard from "@/components/NoteCard";
-import Footer from "@/components/Footer";
+import { createContext, useEffect, useState } from "react";
 import styled from "styled-components";
+
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import NoNote from "@/components/NoNotes";
-import { useEffect, useState } from "react";
+import NoteCard from "@/components/NoteCard";
+
+export const ProjectContext = createContext();
 
 export default function Home() {
   const [notes, setNotes] = useState([]);
+  const [state, setState] = useState({
+    noteTitle: "",
+    noteContent: "",
+    showModal: false,
+  });
+  console.log(state);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -20,19 +29,21 @@ export default function Home() {
   }, []);
 
   return (
-    <MainContainer>
-      <Header />
-      {notes ? (
-        <NoteCardContainer>
-          {notes.map(({ title, content, id }) => (
-            <NoteCard title={title} content={content} key={id} id={id} />
-          ))}
-        </NoteCardContainer>
-      ) : (
-        <NoNote />
-      )}
-      <Footer />
-    </MainContainer>
+    <ProjectContext.Provider value={[state, setState]}>
+      <MainContainer>
+        <Header />
+        {notes ? (
+          <NoteCardContainer>
+            {notes.map(({ title, content, id }) => (
+              <NoteCard title={title} content={content} key={id} id={id} />
+            ))}
+          </NoteCardContainer>
+        ) : (
+          <NoNote />
+        )}
+        <Footer />
+      </MainContainer>
+    </ProjectContext.Provider>
   );
 }
 

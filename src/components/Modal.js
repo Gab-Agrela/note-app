@@ -1,43 +1,52 @@
+import { useContext, useState } from "react";
 import styled from "styled-components";
-import { useState } from "react";
 import { nanoid } from "nanoid";
 
 import Editor from "./Editor";
+import { ProjectContext } from "@/app/page";
 
-export default function Modal({ showModal, toggleModal }) {
-  const [noteContent, setNoteContent] = useState("");
-  const [noteTitle, setNoteTitle] = useState("");
+export default function Modal() {
+  const [state, setState] = useContext(ProjectContext);
 
-  const handleChange = (event) => {
-    setNoteTitle(event.target.value);
+  const handleTitle = ({ target }) => {
+    setState((prev) => ({ ...prev, noteTitle: target.value }));
+  };
+
+  const handleContent = (e) => {
+    setState((prev) => ({ ...prev, noteContent: e }));
   };
 
   const handleSubmit = () => {
     const previousNotes = JSON.parse(localStorage.getItem("notes")) || [];
     const mountObject = {
       id: nanoid(),
-      title: noteTitle,
-      content: noteContent,
+      title: state.noteTitle,
+      content: state.noteContent,
     };
     localStorage.setItem(
       "notes",
       JSON.stringify([...previousNotes, mountObject])
     );
     window.dispatchEvent(new Event("storage"));
-    toggleModal();
+    setState((prev) => ({
+      ...prev,
+      noteTitle: "",
+      noteContent: "",
+      showModal: !prev.showModal,
+    }));
   };
 
+  const toggleModal = () =>
+    setState((prev) => ({ ...prev, showModal: !prev.showModal }));
+
   return (
-    <ModalWrapper show={showModal}>
+    <ModalWrapper show={state.showModal}>
       <ModalContent>
         <CloseButton onClick={toggleModal}>&times;</CloseButton>
         <ContentContainer>
-          <Title placeholder="Title" onChange={handleChange} />
+          <Title placeholder="Title" onChange={handleTitle} />
           <Content>
-            <Editor
-              placeholder="Type here..."
-              setNoteContent={setNoteContent}
-            />
+            <Editor placeholder="Type here..." setNoteContent={handleContent} />
           </Content>
           <SubmitButton onClick={handleSubmit}>Save</SubmitButton>
         </ContentContainer>

@@ -1,20 +1,21 @@
 "use client";
-import { useState } from "react";
 import { CiCirclePlus } from "react-icons/ci";
 import styled from "styled-components";
 
 import Modal from "./Modal";
+import { ProjectContext } from "@/app/page";
+import { useContext } from "react";
 
 export default function Footer() {
-  const [showModal, setShowModal] = useState(false);
-  const toggleModal = () => {
-    setShowModal(!showModal);
-  };
+  const [, setState] = useContext(ProjectContext);
+
+  const toggleModal = () =>
+    setState((prev) => ({ ...prev, showModal: !prev.showModal }));
 
   return (
     <FooterContainer>
       <CiCirclePlus size="38px" onClick={toggleModal} />
-      <Modal showModal={showModal} toggleModal={toggleModal} />
+      <Modal />
     </FooterContainer>
   );
 }
