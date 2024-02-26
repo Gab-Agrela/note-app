@@ -29,7 +29,12 @@ export default function Modal() {
       <ModalContent>
         <CloseButton onClick={toggleModal}>&times;</CloseButton>
         <ContentContainer>
-          <Title placeholder="Title" onChange={handleTitle} value={noteTitle} />
+          <Title
+            placeholder="Title"
+            onChange={handleTitle}
+            value={noteTitle}
+            required
+          />
           <Content>
             <Editor placeholder="Type here..." setNoteContent={handleContent} />
           </Content>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useContext, useEffect } from "react";
 import { useEditor, EditorContent as EditorTipTap } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
@@ -15,7 +16,8 @@ import {
   FaUnderline,
 } from "react-icons/fa";
 import styled from "styled-components";
-import { useContext, useEffect } from "react";
+import parse from "html-react-parser";
+
 import { ProjectContext } from "@/app/page";
 
 const MenuBar = ({ editor }) => {
@@ -107,12 +109,17 @@ export default function Editor({ setNoteContent }) {
     }));
   };
 
+  const hasEmptyField =
+    !noteTitle.length || !parse(noteContent)?.props?.children;
+
   return (
     <>
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
       <ButtonContainer>
-        <SubmitButton onClick={handleSubmit}>Save</SubmitButton>
+        <SubmitButton onClick={handleSubmit} disabled={hasEmptyField}>
+          Save
+        </SubmitButton>
       </ButtonContainer>
     </>
   );
@@ -158,5 +165,12 @@ const SubmitButton = styled.button`
   :hover {
     border-color: dimgray;
     color: dimgray;
+  }
+  :disabled {
+    border-color: dimgray;
+    color: dimgray;
+    :hover {
+      cursor: not-allowed;
+    }
   }
 `;
