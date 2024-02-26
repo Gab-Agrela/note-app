@@ -50,7 +50,7 @@ export default function Home() {
 const MainContainer = styled.main`
   display: flex;
   flex-direction: column;
-  height: 95vh;
+  height: 95dvh;
 `;
 
 const NoteCardContainer = styled.div`
