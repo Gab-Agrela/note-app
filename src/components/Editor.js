@@ -72,7 +72,7 @@ export default function Editor({ setNoteContent }) {
       }),
     ],
     content: "",
-    onUpdate: ({ editor }) => {
+    onBlur: ({ editor }) => {
       const html = editor.getHTML();
       setNoteContent(html);
     },
@@ -109,15 +109,12 @@ export default function Editor({ setNoteContent }) {
     }));
   };
 
-  const hasEmptyField =
-    !noteTitle.length || !parse(noteContent)?.props?.children;
-
   return (
     <>
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
       <ButtonContainer>
-        <SubmitButton onClick={handleSubmit} disabled={hasEmptyField}>
+        <SubmitButton onClick={handleSubmit} disabled={!noteTitle?.length}>
           Save
         </SubmitButton>
       </ButtonContainer>
