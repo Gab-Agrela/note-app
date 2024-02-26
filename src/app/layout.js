@@ -9,6 +9,7 @@ export default function RootLayout({ children }) {
       <head>
         <title>Note App</title>
         <meta name="description" content="Created to manage your notes" />
+        <link rel="icon" href="/assets/icon.png" type="image/png" sizes="any" />
       </head>
       <body className={inter.className}>{children}</body>
     </html>
